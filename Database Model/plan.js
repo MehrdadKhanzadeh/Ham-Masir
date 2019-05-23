@@ -36,5 +36,13 @@ const plan = {
   price: {
     type: Number,
     default: 0
+  },
+  repeatPattern: {
+    type: String,
+    enum: [
+      'never',
+      'weekly',
+      'monthly'
+    ]
   }
 }
