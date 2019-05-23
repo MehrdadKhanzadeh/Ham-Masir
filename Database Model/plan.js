@@ -33,6 +33,10 @@ const plan = {
     type: Boolean,
     default: false
   },
+  carIndex: {
+    type: Number,
+    required: () => this.isDriver === true
+  },
   price: {
     type: Number,
     default: 0
