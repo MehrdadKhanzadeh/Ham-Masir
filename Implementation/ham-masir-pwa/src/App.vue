@@ -3,7 +3,7 @@
     <!-- <v-navigation-drawer app></v-navigation-drawer> -->
     <v-toolbar app color="primary">
       <v-toolbar-title class="white--text">
-        هم‌سفر
+        هم‌مسیر
       </v-toolbar-title>
     </v-toolbar>
     <v-content>
@@ -94,6 +94,10 @@ export default {
 
 #app {
   font-family: IRANSans
+}
+
+a:hover {
+  font-weight: bold;
 }
 </style>
 
