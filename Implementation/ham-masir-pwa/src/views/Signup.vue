@@ -183,7 +183,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.loading = true
 
-        const { data } = await axios.post('http://localhost:5000/signup', {
+        const { data } = await axios.post('http://localhost:5000/user/signup', {
           username: this.username,
           password: this.password,
           repeatPassword: this.repeatPassword,
@@ -196,7 +196,15 @@ export default {
         })
 
         this.loading = false
-        this.step += 1
+        
+        if (data.isSuccessful) {
+          this.step += 1
+        } else if (data.statusCode === '200') {
+          this.invalidUsername = true
+          this.$refs.form.validate()
+          this.invalidUsername = false
+        }
+
       }
     },
     clear () {
