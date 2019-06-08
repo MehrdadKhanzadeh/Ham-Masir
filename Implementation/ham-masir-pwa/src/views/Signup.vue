@@ -179,6 +179,7 @@ export default {
         const { data } = await axios.post('http://localhost:5000/signup', {
           username: this.username,
           password: this.password,
+          repeatPassword: this.repeatPassword,
           firstName: this.firstName,
           lastName: this.lastName,
           phoneNumber: this.phoneNumber,
