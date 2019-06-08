@@ -21,7 +21,8 @@
                     <v-text-field
                       label="نام کاربری"
                       v-model="username"
-                      :rules="[requiredRule, v => !invalidUsername || 'نام کاربری قبلاً استفاده شده است.']"
+                      hint="باید شامل حداقل ۳ کاراکتر و فقط حاوی حروف، اعداد و «_» باشد."
+                      :rules="[requiredRule, usernameRule, v => !invalidUsername || 'نام کاربری قبلاً استفاده شده است.']"
                       validate-on-blur
                     ></v-text-field>
                   </v-flex>
@@ -29,7 +30,9 @@
                     <v-text-field
                       label="رمز عبور"
                       v-model="password"
-                      :rules="[requiredRule]"
+                      hint="باید شامل حداقل ۶ کاراکتر باشد."
+                      counter
+                      :rules="[requiredRule, passwordRule]"
                       validate-on-blur
                       type="password"
                     ></v-text-field>
@@ -38,7 +41,7 @@
                     <v-text-field
                       label="تکرار رمز عبور"
                       v-model="repeatPassword"
-                      :rules="[v => !!v || 'این فیلد اجباری است.', v => v == password || 'تکرار رمز عبور با رمز عبور مطابقت ندارد.' ]"
+                      :rules="[requiredRule, v => v === password || 'تکرار رمز عبور با رمز عبور مطابقت ندارد.' ]"
                       validate-on-blur
                       type="password"
                     ></v-text-field>
@@ -63,7 +66,8 @@
                     <v-text-field
                       label="شماره‌ی موبایل"
                       v-model="phoneNumber"
-                      :rules="[requiredRule, v => !invalidPhoneNumber || 'شماره‌ی موبایل قبلاً استفاده شده است.']"
+                      :rules="[requiredRule, phoneNumberRule, v => !invalidPhoneNumber || 'شماره‌ی موبایل قبلاً استفاده شده است.']"
+                      validate-on-blur
                       type="number"
                     ></v-text-field>
                   </v-flex>
@@ -164,7 +168,10 @@ export default {
       email: null,
       country: null,
       city: null,
-      emailRule: v => (v ? /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) : true) || 'ایمیل وارد شده معتبر نیست.',
+      usernameRule: v => /^[a-zA-Z0-9_]{3,}$/.test(v) || 'باید شامل حداقل ۳ کاراکتر و فقط حاوی حروف، اعداد و «_» باشد.',
+      passwordRule: v => /^.{6,}$/.test(v) || 'باید شامل حداقل ۶ کاراکتر باشد.',
+      phoneNumberRule: v => /^\d{10}$/.test(v) || 'شماره‌ی وارد شده معتبر نیست.',
+      emailRule: v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'پست الکترونیکی وارد شده معتبر نیست.',
       requiredRule: v => !!v || 'این فیلد اجباری است.',
       invalidUsername: false,
       invalidPhoneNumber: false,
