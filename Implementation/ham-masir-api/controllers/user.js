@@ -16,35 +16,35 @@ const signup = async (req, res, next) => {
     const country = data.country.trim()
     const city = data.city.trim()
 
-    const usernameValidator = new RegExp('^[a-zA-Z0-9_]{3,}')
-    const passwordValidator = new RegExp('^.{6,}')
-    const phoneNumberValidator = new RegExp('^\d{10}')
-    const emailValidator = new RegExp('^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))')
+    const usernameValidator = new RegExp(/^[a-zA-Z0-9_]{3,}$/)
+    const passwordValidator = new RegExp(/^.{6,}$/)
+    const phoneNumberValidator = new RegExp(/^\d{10}$/)
+    const emailValidator = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
 
     if (!usernameValidator.test(username)) {
       res.json({
         isSuccessful: false,
-        statusCode: '0001'
+        statusCode: '001'
       })
     } else if (!passwordValidator.test(password)) {
       res.json({
         isSuccessful: false,
-        statusCode: '0002'
+        statusCode: '002'
       })
     } else if (password !== repeatPassword) {
       res.json({
         isSuccessful: false,
-        statusCode: '0003'
+        statusCode: '003'
       })
     } else if (!phoneNumberValidator.test(phoneNumber)) {
       res.json({
         isSuccessful: false,
-        statusCode: '0004'
+        statusCode: '004'
       })
     } else if (!emailValidator.test(email)) {
       res.json({
         isSuccessful: false,
-        statusCode: '0005'
+        statusCode: '005'
       })
     } else {
       res.json(await userService.signup(username, password, firstName, lastName, phoneNumber, email, country, city))
@@ -54,7 +54,7 @@ const signup = async (req, res, next) => {
 
     res.json({
       isSuccessful: false,
-      statusCode: '0000'
+      statusCode: '000'
     })
   }
 }
@@ -73,7 +73,7 @@ const login = async (req, res, next) => {
 
     res.json({
       isSuccessful: false,
-      statusCode: '0010'
+      statusCode: '010'
     })
   }
 } 

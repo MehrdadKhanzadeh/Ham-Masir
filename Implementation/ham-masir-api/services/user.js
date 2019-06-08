@@ -27,7 +27,7 @@ const signup = async (username, password, firstName, lastName, phoneNumber, emai
 
     return {
       isSuccessful: false,
-      statusCode: '0100'
+      statusCode: '100'
     }
   }
 }
@@ -47,7 +47,7 @@ const login = async (username, password) => {
 
     return {
       isSuccessful: false,
-      statusCode: '0110'
+      statusCode: '110'
     }
   }
 }
