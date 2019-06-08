@@ -19,7 +19,7 @@
                 <v-text-field
                   label="نام کاربری"
                   v-model="username"
-                  :rules="requiredRule"
+                  :rules="[requiredRule, v => !invalidUsername || 'کاربری با این نام کاربری وجود ندارد.']"
                   validate-on-blur
                 ></v-text-field>
               </v-flex>
@@ -27,7 +27,7 @@
                 <v-text-field
                   label="رمز عبور"
                   v-model="password"
-                  :rules="requiredRule"
+                  :rules="[requiredRule, v => !invalidPassword || 'رمز عبور ورودی اشتباه است.']"
                   validate-on-blur
                   type="password"
                 ></v-text-field>
@@ -40,15 +40,17 @@
         <v-btn
           flat
           @click="submit"
-          :disabled="!valid"
+          :disabled="!valid || loading"
           color="success"
           outline
+          :loading="loading"
         >
           ورود
         </v-btn>
         <v-btn
           flat
           @click="clear"
+          :disabled="loading"
           color="error"
         >پاک کردن</v-btn>
       </v-card-actions>
@@ -58,24 +60,43 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data () {
     return {
       valid: true,
+      loading: false,
       username: null,
       password: null,
-      requiredRule: [v => !!v || 'این فیلد اجباری است.']
+      requiredRule: v => !!v || 'این فیلد اجباری است.',
+      invalidUsername: false,
+      invalidPassword: false
     }
   },
   methods: {
-    submit () {
+    async submit () {
       if (this.$refs.form.validate()) {
-        // axios.post("/api/submit", {
-        //   name: this.name,
-        //   email: this.email,
-        //   select: this.select,
-        //   checkbox: this.checkbox
-        // });
+        this.loading = true
+
+        const { data } = await axios.post('http://localhost:5000/user/login', {
+          username: this.username,
+          password: this.password
+        })
+
+        this.loading = false
+
+        if (data.isSuccessful) {
+          this.$router.push('home')
+        } else if (data.statusCode === '111') {
+          this.invalidUsername = true
+          this.$refs.form.validate()
+          this.invalidUsername = false
+        } else if (data.statusCode === '112') {
+          this.invalidPassword = true
+          this.$refs.form.validate()
+          this.invalidPassword = false
+        }
       }
     },
     clear () {
