@@ -24,27 +24,27 @@ const signup = async (req, res, next) => {
     if (!usernameValidator.test(username)) {
       res.json({
         isSuccessful: false,
-        statusCode: 1001
+        statusCode: '0001'
       })
     } else if (!passwordValidator.test(password)) {
       res.json({
         isSuccessful: false,
-        statusCode: 1002
+        statusCode: '0002'
       })
     } else if (password !== repeatPassword) {
       res.json({
         isSuccessful: false,
-        statusCode: 1003
+        statusCode: '0003'
       })
     } else if (!phoneNumberValidator.test(phoneNumber)) {
       res.json({
         isSuccessful: false,
-        statusCode: 1004
+        statusCode: '0004'
       })
     } else if (!emailValidator.test(email)) {
       res.json({
         isSuccessful: false,
-        statusCode: 1005
+        statusCode: '0005'
       })
     } else {
       res.json(await userService.signup(username, password, firstName, lastName, phoneNumber, email, country, city))
@@ -54,7 +54,7 @@ const signup = async (req, res, next) => {
 
     res.json({
       isSuccessful: false,
-      statusCode: 1000
+      statusCode: '0000'
     })
   }
 }
@@ -73,7 +73,7 @@ const login = async (req, res, next) => {
 
     res.json({
       isSuccessful: false,
-      statusCode: 100
+      statusCode: '0010'
     })
   }
 } 
