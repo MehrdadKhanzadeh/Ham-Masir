@@ -12,7 +12,7 @@ const logger = winston.createLogger({
     }),
     winston.format.align(),
     winston.format.printf(info => {
-      return chalk.cyan(`\n[feedment-api(${chalk.magenta.bold(info.timestamp)} => ${chalk.bold(info.level)})]\t${chalk.bold(info.message)}`)
+      return chalk.cyan(`\n[ham-masir-api(${chalk.magenta.bold(info.timestamp)} => ${chalk.bold(info.level)})]\t${chalk.bold(info.message)}`)
     })
   ),
   transports: [
