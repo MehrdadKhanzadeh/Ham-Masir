@@ -36,12 +36,29 @@ const login = async (username, password) => {
   const hashedPassword = await hash.sha512().update(password).digest('hex')
 
   let user = {
-    username: username,
-    password: hashedPassword
+    username: username
   }
 
   try {
-    return await userRepository.findUser(user)
+    const res = await userRepository.findUser(user)
+
+    if (res.isSuccessful) {
+      if (res.data.password === hashedPassword) {
+        return {
+          isSuccessful: true
+        }
+      } else {
+        return {
+          isSuccessful: false,
+          statusCode: '112'
+        }
+      }
+    } else {
+      return {
+        isSuccessful: false,
+        statusCode: '111'
+      }
+    }
   } catch (err) {
     logger.error(err)
 
