@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-    <v-navigation-drawer app v-model="navigationDrawer" right v-if="$route.name !== 'signup' && $route.name !== 'login'">
+    <v-navigation-drawer :style="{ backgroundColor: this.$vuetify.theme.navigationDrawer }" app v-model="navigationDrawer" right v-if="$route.name !== 'signup' && $route.name !== 'login'">
       <v-flex xs12 pa-3 text-xs-center>
         <v-avatar
           size="60"
@@ -11,24 +11,40 @@
       <v-flex xs12 text-xs-center style="font-weight: bold;" pb-2>
         {{ $store.state.firstName + ' ' + $store.state.lastName }}
       </v-flex>
-      <v-divider></v-divider>
-      <v-flex xs12 pa-2>
-        <v-flex xs12 pa-1 :style="{ color: this.$route.name === 'home' ? this.$vuetify.theme.primary : 'black' }" @click="$router.push('/')">
+      <v-flex xs12 pa-3>
+        <v-flex class="nav-drawer-item" xs12 pa-2 :style="this.$route.name === 'home' ? { color: this.$vuetify.theme.primary, borderColor: '#00838f' } : {}" @click="$router.push('/')">
           مشاهده و درخواست هم‌مسیر
         </v-flex>
-        <v-flex xs12 pa-1 :style="{ color: this.$route.name === 'plan' ? this.$vuetify.theme.primary : 'black' }" @click="$router.push('plan')">
+        <v-flex class="nav-drawer-item" xs12 pa-2 :style="this.$route.name === 'plan' ? { color: this.$vuetify.theme.primary, borderColor: '#00838f' } : {}" @click="$router.push('plan')">
           برنامه‌های سفر
         </v-flex>
-        <v-flex xs12 pa-1 @click="$router.push('login')">
+        <v-flex class="nav-drawer-item" xs12 pa-2 @click="$router.push('login')">
           خروج
         </v-flex>
       </v-flex>
     </v-navigation-drawer>
-    <v-toolbar app color="primary">
+    <v-toolbar app color="primary" :extended="$route.name === 'home'">
       <v-toolbar-side-icon class="white--text" @click="navigationDrawer = !navigationDrawer" v-if="$route.name !== 'signup' && $route.name !== 'login'"></v-toolbar-side-icon>
       <v-toolbar-title class="white--text">
         هم‌مسیر
       </v-toolbar-title>
+      <template v-slot:extension v-if="$route.name === 'home'">
+        <v-tabs
+          v-model="tab"
+          color="transparent"
+          grow
+          :slider-color="$vuetify.theme.primaryLight"
+        >
+          <v-tab
+            v-for="(item, i) in ['درخواست‌ها', 'پیشنهاد‌ها']"
+            :key="item"
+            :href="'#tab-' + i"
+            class="white--text"
+          >
+            {{ item }}
+          </v-tab>
+        </v-tabs>
+      </template>
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height :style="{ backgroundColor: this.$vuetify.theme.primaryLight }">
@@ -43,7 +59,17 @@ export default {
   name: 'App',
   data () {
     return {
-      navigationDrawer: false
+      navigationDrawer: true
+    }
+  },
+  computed: {
+    tab: {
+      get () {
+        return this.$store.state.tab
+      },
+      set (v) {
+        this.$store.commit('changeTab', v)
+      }
     }
   }
 }
@@ -122,6 +148,19 @@ export default {
 
 a:hover {
   font-weight: bold;
+}
+
+.nav-drawer-item {
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
+  border-radius: 5px;
+}
+
+.nav-drawer-item:hover {
+  font-weight: bold;
+  cursor: pointer;
+  border-color: #00838f;
 }
 </style>
 
