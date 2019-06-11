@@ -21,7 +21,14 @@ const createUser = async (user) => {
 
 const findUser = async (user) => {
   try {
-    let foundUser = await User.findOne(user)
+    let foundUser = await User.findOne(user).populate({
+      path: 'requests',
+      model: 'Plan',
+      populate: {
+        path: 'username',
+        model: 'User'
+      }
+    })
 
     if (foundUser !== null) {
       return {
