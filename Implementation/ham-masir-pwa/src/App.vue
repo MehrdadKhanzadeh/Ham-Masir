@@ -1,16 +1,25 @@
 <template>
   <v-app id="app">
-    <v-navigation-drawer :style="{ backgroundColor: this.$vuetify.theme.navigationDrawer }" app v-model="navigationDrawer" right v-if="$route.name !== 'signup' && $route.name !== 'login'">
-      <v-flex xs12 pa-3 text-xs-center>
-        <v-avatar
-          size="60"
-          color="grey"
-        >
-        </v-avatar> 
-      </v-flex>
-      <v-flex xs12 text-xs-center style="font-weight: bold;" pb-2>
-        {{ $store.state.firstName + ' ' + $store.state.lastName }}
-      </v-flex>
+    <v-navigation-drawer app v-model="navigationDrawer" right v-if="$route.name !== 'signup' && $route.name !== 'login'">
+      <v-layout col pa-4 :style="{ height: '128px' }" align-center>
+        <v-flex xs4 text-xs-center>
+          <v-avatar
+            size="75"
+            color="grey"
+          >
+          </v-avatar> 
+        </v-flex>
+        <v-flex xs8 justify-center align-center align-content-center d-flex>
+          <v-layout row wrap>
+            <v-flex xs12 text-xs-center style="font-weight: bold; color: black;">
+              {{ $store.state.firstName + ' ' + $store.state.lastName }}
+            </v-flex>
+            <v-flex xs12 text-xs-center style="color: grey;" pb-2>
+              {{ $store.state.username }}@
+            </v-flex>
+          </v-layout>
+        </v-flex>
+      </v-layout>
       <v-flex xs12 pa-3>
         <v-flex class="nav-drawer-item" xs12 pa-2 :style="this.$route.name === 'home' ? { color: this.$vuetify.theme.primary, borderColor: '#00838f' } : {}" @click="$router.push('/')">
           مشاهده و درخواست هم‌مسیر
