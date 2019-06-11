@@ -11,7 +11,7 @@ const planSchema = new mongoose.Schema({
         type: String,
         required: true
     }],
-    validate: [arr => arr.length >= 2, 'Path should have at list 2 members.']
+    validate: [arr => arr.length >= 2, 'مسیر باید حداقل حاوی ۲ عضو باشد.']
   },
   timestamp: {
     type: Date,
@@ -23,7 +23,8 @@ const planSchema = new mongoose.Schema({
   },
   carIndex: {
     type: Number,
-    required: () => this.isDriver === true
+    required: () => this.isDriver === true,
+    default: 0
   },
   price: {
     type: Number,
@@ -32,12 +33,12 @@ const planSchema = new mongoose.Schema({
   repeatPattern: {
     type: String,
     enum: [
-      'never',
-      'daily',
-      'weekly',
-      'monthly'
+      'هرگز',
+      'روزانه',
+      'هفتگی',
+      'ماهانه'
     ],
-    default: 'never'
+    default: 'هرگز'
   }
 })
 
