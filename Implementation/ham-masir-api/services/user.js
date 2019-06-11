@@ -48,6 +48,7 @@ const login = async (username, password) => {
           username: res.data._id
         }
         const res2 = await planRepository.findPlansByUsername(plan)
+        const res3 = await planRepository.findSimilarPlans(res2.data)
 
         return {
           isSuccessful: true,
@@ -55,7 +56,9 @@ const login = async (username, password) => {
             id: res.data._id,
             firstName: res.data.firstName,
             lastName: res.data.lastName,
-            plans: res2.isSuccessful ? res2.data : []
+            plans: res2.isSuccessful ? res2.data : [],
+            requests: res.data.requests,
+            suggestions: res3.data
           }
         }
       } else {
