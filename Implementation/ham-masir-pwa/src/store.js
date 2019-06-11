@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    id: null,
     username: null,
     password: null,
     firstName: null,
@@ -15,6 +16,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setUserInfo (state, user) {
+      state.id = user.id,
       state.username = user.username
       state.password = user.password
       state.firstName = user.firstName

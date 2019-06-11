@@ -88,6 +88,7 @@ export default {
 
         if (data.isSuccessful) {
           this.$store.commit('setUserInfo', {
+            id: data.data.id,
             username: this.username,
             password: this.password,
             firstName: data.data.firstName,

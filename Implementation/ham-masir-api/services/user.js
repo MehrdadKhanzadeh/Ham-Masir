@@ -52,6 +52,7 @@ const login = async (username, password) => {
         return {
           isSuccessful: true,
           data: {
+            id: res.data._id,
             firstName: res.data.firstName,
             lastName: res.data.lastName,
             plans: ress2.isSuccessful ? res.data : []
