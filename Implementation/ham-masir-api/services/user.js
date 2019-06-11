@@ -2,7 +2,7 @@ const hash = require('hash.js')
 
 const { logger } = require('../utils')
  
-const { userRepository } = require('../repositories')
+const { userRepository, planRepository } = require('../repositories')
  
 const signup = async (username, password, firstName, lastName, phoneNumber, email, country, city) => {
   const hashedPassword = await hash.sha512().update(password).digest('hex')
@@ -44,8 +44,18 @@ const login = async (username, password) => {
 
     if (res.isSuccessful) {
       if (res.data.password === hashedPassword) {
+        let plan = {
+          username: res.data._id
+        }
+        const res2 = await planRepository.findPlansByUsername(plan)
+
         return {
-          isSuccessful: true
+          isSuccessful: true,
+          data: {
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            plans: ress2.isSuccessful ? res.data : []
+          }
         }
       } else {
         return {
