@@ -7,7 +7,7 @@ const addPlan = async (req, res, next) => {
     const data = req.body
 
     const username = data.username.toLowerCase().trim()
-    const path = data.path.trim()
+    const path = data.path
     const date = data.date.trim()
     const time = data.time.trim()
     const isDriver = data.isDriver
