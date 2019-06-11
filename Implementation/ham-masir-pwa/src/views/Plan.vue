@@ -27,7 +27,7 @@
       <v-card-text>
         <v-layout row wrap justify-center>
           <v-flex xs12 sm10 md8 lg6 xl4>
-            <v-form>
+            <v-form ref="form">
               <v-layout row wrap justify-center align-center align-content-center>
                 <v-flex xs12 pr-2 pl-2>
                   <v-autocomplete
@@ -55,7 +55,7 @@
                   >
                     <template v-slot:activator="{ on }">
                       <v-text-field
-                        v-model="date"
+                        :value="date ? (new Date(date)).toLocaleDateString('fa-IR') : null"
                         :rules="[v => !!v || 'این فیلد اجباری است.']"
                         label="تاریخ حرکت"
                         readonly
@@ -107,7 +107,7 @@
                 <v-flex xs12 pr-2 pl-2>
                   <v-autocomplete
                     v-model="repeatPattern"
-                    :items="['هرگز', 'هفتگی', 'ماهانه']"
+                    :items="['هرگز', 'روزانه', 'هفتگی', 'ماهانه']"
                     label="تکرار"
                     no-data-text="الگوی تکرار پیدا نشد."
                   >
@@ -125,30 +125,32 @@
   </v-dialog>
   <v-flex xs12>
     <v-layout row wrap>
-      <v-flex xs12 sm6 md4 :key="i" v-for="(p, i) in $store.state.plans" pa-2>
+      <v-flex xs12 sm6 md4 xl3 :key="i" v-for="(p, i) in $store.state.plans" pa-2>
         <v-card color="white">
           <v-card-title primary-title>
             <v-flex xs12 :style="{ color: $vuetify.theme.primary }">
-              <span style="font-size: 1.5rem;">{{ p.date }}، {{ p.time }}</span>
+              <span style="font-size: 1.5rem;">{{ (new Date(p.date)).toLocaleDateString('fa-IR') }}</span>
+            </v-flex>
+            <v-flex xs12 style="color: gray;">
+              {{ p.time }}
             </v-flex>
           </v-card-title>
           <v-card-text>
             <v-layout row wrap>
+              <v-flex xs6>
+                نوع: {{ p.isDriver ? 'راننده' : 'مسافر' }}
+              </v-flex>
+              <v-flex xs6>
+                تکرار: {{ p.repeatPattern }}
+              </v-flex>
+              <v-flex xs12 pt-3>
+                مسیر حرکت:
+              </v-flex>
               <v-flex xs12>
                 <v-chip :key="j" v-for="(pp, j) in p.path">
                   {{ pp }}
                 </v-chip>
               </v-flex>
-              <!-- <v-flex xs12 pa-3>
-                <v-layout row wrap>
-                  <v-flex xs6>
-                    راننده
-                  </v-flex>
-                  <v-flex xs6>
-                    ماهانه
-                  </v-flex>
-                </v-layout>
-              </v-flex> -->
             </v-layout>
           </v-card-text>
           <v-card-actions>
@@ -198,7 +200,7 @@
       <v-card-text>
         <v-layout row wrap justify-center>
           <v-flex xs12 sm10 md8 lg6 xl4>
-            <v-form>
+            <v-form ref="form">
               <v-layout row wrap justify-center align-center align-content-center>
                 <v-flex xs12 pr-2 pl-2>
                   <v-autocomplete
@@ -226,7 +228,7 @@
                   >
                     <template v-slot:activator="{ on }">
                       <v-text-field
-                        v-model="date"
+                        :value="date ? (new Date(date)).toLocaleDateString('fa-IR') : null"
                         :rules="[v => !!v || 'این فیلد اجباری است.']"
                         label="تاریخ حرکت"
                         readonly
@@ -325,25 +327,27 @@ export default {
       this.dialog = true
     },
     async savePlan () {
-      const { data } = await axios.post('http://localhost:5000/plan/add', {
-        username: this.$store.state.id,
-        path: this.path,
-        date: this.date,
-        time: this.time,
-        repeatPattern: this.repeatPattern,
-        isDriver: this.isDriver
-      })
-
-      if (data.isSuccessful) {
-        this.dialog = false
-        
-        this.$store.commit('addPlan', {
+      if (this.$refs.form.validate()) {
+        const { data } = await axios.post('http://localhost:5000/plan/add', {
+          username: this.$store.state.id,
           path: this.path,
           date: this.date,
           time: this.time,
           repeatPattern: this.repeatPattern,
           isDriver: this.isDriver
         })
+
+        if (data.isSuccessful) {
+          this.dialog = false
+          
+          this.$store.commit('addPlan', {
+            path: this.path,
+            date: this.date,
+            time: this.time,
+            repeatPattern: this.repeatPattern,
+            isDriver: this.isDriver
+          })
+        }
       }
     }
   }
