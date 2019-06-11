@@ -9,6 +9,7 @@ Vue.use(Vuetify, {
   theme: {
     primary: colors.cyan.darken3,
     primaryLight: colors.cyan.lighten5,
+    navigationDrawer: '#ffffff',
     secondary: colors.pink.darken3,
     success: colors.lightGreen.darken3,
     error: colors.red.darken3,
