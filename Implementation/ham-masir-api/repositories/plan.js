@@ -44,7 +44,42 @@ const findPlansByUsername = async (plan) => {
   }
 }
 
+const findSimilarPlans = async (plans) => {
+  try {
+    let allFoundPlans = []
+
+    for (let i = 0; i < plans.length; i++) {
+      const foundPlans = await Plan.find({
+        username: {
+          $ne: plans[i].username
+        },
+        date: plans[i].date,
+        time: plans[i].time,
+        path: {
+          $all: [plans[i].path[0], plans[i].path[plans[i].path.length - 1]]
+        }
+      })
+
+      allFoundPlans.push(foundPlans)
+    }
+
+    return {
+      isSuccessful: true,
+      data: allFoundPlans
+    }
+  } catch (err) {
+    logger.error(err)
+
+    return {
+      isSuccessful: false,
+      statusCode: '220'
+    }
+  }
+  
+}
+
 module.exports = {
   createPlan,
-  findPlansByUsername
+  findPlansByUsername,
+  findSimilarPlans
 }
