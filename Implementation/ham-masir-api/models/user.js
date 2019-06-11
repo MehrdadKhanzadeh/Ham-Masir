@@ -74,7 +74,11 @@ const userSchema = new mongoose.Schema({
       max: 5,
       default: 0
     }
-  }
+  },
+  requests: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'plan'
+  }]
 })
 
 const User = mongoose.model('User', userSchema)
