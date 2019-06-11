@@ -13,8 +13,12 @@ const planSchema = new mongoose.Schema({
     }],
     validate: [arr => arr.length >= 2, 'مسیر باید حداقل حاوی ۲ عضو باشد.']
   },
-  timestamp: {
-    type: Date,
+  date: {
+    type: String,
+    index: true
+  },
+  time: {
+    type: String,
     index: true
   },
   isDriver: {

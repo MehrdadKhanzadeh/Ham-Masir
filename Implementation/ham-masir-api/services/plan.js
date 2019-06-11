@@ -3,12 +3,11 @@ const { logger } = require('../utils')
 const { planRepository } = require('../repositories')
 
 const addPlan = async (username, path, date, time, isDriver, repeatPattern) => {
-  const timestamp = new Date(date + ' ' + time)
-
   let plan = {
     username: username,
     path: path,
-    timestamp: timestamp,
+    date: date,
+    time: time,
     isDriver: isDriver,
     repeatPattern: repeatPattern
   }
