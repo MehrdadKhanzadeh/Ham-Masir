@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    tab: 'tab-0',
     id: null,
     username: null,
     password: null,
@@ -24,6 +25,9 @@ export default new Vuex.Store({
       state.plans = user.plans
       state.requests = user.requests
       state.suggestions = user.suggestions
+    },
+    changeTab (state, tab) {
+      state.tab = tab
     },
     addPlan (state, plan) {
       state.plans.unshift(plan)
