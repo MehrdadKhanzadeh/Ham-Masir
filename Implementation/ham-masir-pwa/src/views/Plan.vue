@@ -123,7 +123,7 @@
       </v-card-text>
     </v-card>
   </v-dialog>
-  <v-flex xs12 md10 lg8>
+  <v-flex xs12>
     <v-layout row wrap>
       <v-flex xs12 sm6 md4 :key="i" v-for="(p, i) in $store.state.plans" pa-2>
         <v-card color="white">
