@@ -87,6 +87,15 @@ export default {
         this.loading = false
 
         if (data.isSuccessful) {
+          this.$store.commit('setUserInfo', {
+            username: this.username,
+            password: this.password,
+            firstName: data.data.firstName,
+            lastName: data.data.lastName,
+            plans: data.data.plans,
+            requests: data.data.requests,
+            suggestions: data.data.suggestions
+          })
           this.$router.push('home')
         } else if (data.statusCode === '111') {
           this.invalidUsername = true
