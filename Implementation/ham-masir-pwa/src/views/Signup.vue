@@ -94,7 +94,7 @@
                       label="شهر"
                       v-model="city"
                       :rules="[requiredRule]"
-                      :items="['اصفهان', 'تهران']"
+                      :items="['اصفهان']"
                       no-data-text="شهری با این اسم یافت نشد."
                       validate-on-blur
                     ></v-autocomplete>
