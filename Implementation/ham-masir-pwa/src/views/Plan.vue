@@ -299,6 +299,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data () {
     return {
@@ -322,15 +324,27 @@ export default {
     add () {
       this.dialog = true
     },
-    savePlan () {
-      this.dialog = false
-      this.$store.commit('addPlan', {
+    async savePlan () {
+      const { data } = await axios.post('http://localhost:5000/plan/add', {
+        username: this.$store.state.id,
         path: this.path,
         date: this.date,
         time: this.time,
         repeatPattern: this.repeatPattern,
         isDriver: this.isDriver
       })
+
+      if (data.isSuccessful) {
+        this.dialog = false
+        
+        this.$store.commit('addPlan', {
+          path: this.path,
+          date: this.date,
+          time: this.time,
+          repeatPattern: this.repeatPattern,
+          isDriver: this.isDriver
+        })
+      }
     }
   }
 }
