@@ -58,6 +58,9 @@ const findSimilarPlans = async (plans) => {
         path: {
           $all: [plans[i].path[0], plans[i].path[plans[i].path.length - 1]]
         }
+      }).populate({
+        path: 'username',
+        model: 'User'
       })
 
       allFoundPlans.push(foundPlans)
