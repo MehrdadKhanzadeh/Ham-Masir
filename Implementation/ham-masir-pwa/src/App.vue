@@ -1,7 +1,31 @@
 <template>
   <v-app id="app">
-    <!-- <v-navigation-drawer app></v-navigation-drawer> -->
+    <v-navigation-drawer app v-model="navigationDrawer" right v-if="$route.name !== 'signup' && $route.name !== 'login'">
+      <v-flex xs12 pa-3 text-xs-center>
+        <v-avatar
+          size="60"
+          color="grey"
+        >
+        </v-avatar> 
+      </v-flex>
+      <v-flex xs12 text-xs-center style="font-weight: bold;" pb-2>
+        {{ $store.state.firstName + ' ' + $store.state.lastName }}
+      </v-flex>
+      <v-divider></v-divider>
+      <v-flex xs12 pa-2>
+        <v-flex xs12 pa-1 :style="{ color: this.$route.name === 'home' ? this.$vuetify.theme.primary : 'black' }" @click="$router.push('/')">
+          مشاهده و درخواست هم‌مسیر
+        </v-flex>
+        <v-flex xs12 pa-1 :style="{ color: this.$route.name === 'plan' ? this.$vuetify.theme.primary : 'black' }" @click="$router.push('plan')">
+          برنامه‌های سفر
+        </v-flex>
+        <v-flex xs12 pa-1 @click="$router.push('login')">
+          خروج
+        </v-flex>
+      </v-flex>
+    </v-navigation-drawer>
     <v-toolbar app color="primary">
+      <v-toolbar-side-icon class="white--text" @click="navigationDrawer = !navigationDrawer" v-if="$route.name !== 'signup' && $route.name !== 'login'"></v-toolbar-side-icon>
       <v-toolbar-title class="white--text">
         هم‌مسیر
       </v-toolbar-title>
@@ -19,7 +43,7 @@ export default {
   name: 'App',
   data () {
     return {
-      //
+      navigationDrawer: false
     }
   }
 }
